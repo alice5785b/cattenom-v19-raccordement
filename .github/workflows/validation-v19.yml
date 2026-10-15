@@ -1,0 +1,17 @@
+name: Validation statique V19
+on:
+  push:
+    branches: [candidate-netlify-v19]
+  workflow_dispatch:
+jobs:
+  static-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Vérifier syntaxe et garde-fous sans accès production
+        run: node check-v19.cjs
