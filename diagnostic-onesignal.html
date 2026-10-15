@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Diagnostic OneSignal — V19</title><style>body{font:16px system-ui,sans-serif;max-width:700px;margin:40px auto;padding:0 18px;line-height:1.55}li{margin:12px 0}code{overflow-wrap:anywhere}button{padding:12px 18px;cursor:pointer}small{color:#555}</style></head>
+<body><h1>Diagnostic OneSignal — V19</h1><p>Cette page ne modifie ni les réservations, ni Supabase, ni les abonnements OneSignal. Elle vérifie seulement l'accessibilité des fichiers de service worker sur le domaine actuellement ouvert.</p><p id="host"></p><button id="go">Vérifier les fichiers</button><ul id="results"></ul><p><small>Une réponse HTTP 200 ne garantit pas à elle seule qu'un service worker OneSignal est correctement installé. Les réponses 404, les redirections vers index.html et les erreurs réseau doivent être examinées.</small></p><script>
+document.getElementById('host').textContent='Domaine testé : '+location.origin;
+document.getElementById('go').onclick=async()=>{
+ const ul=document.getElementById('results');ul.replaceChildren();
+ for(const path of ['/OneSignalSDKWorker.js','/OneSignalSDKUpdaterWorker.js','/sw.js']){
+  const li=document.createElement('li');ul.append(li);
+  try{
+   const response=await fetch(path+'?v19diagnostic='+Date.now(),{cache:'no-store',redirect:'follow'});
+   const type=response.headers.get('content-type')||'non indiqué';
+   const body=await response.text();
+   const html=/^\s*<!doctype html|^\s*<html/i.test(body);
+   const likelyJs=!html && /javascript|text\/plain|octet-stream/i.test(type);
+   li.textContent=path+' : HTTP '+response.status+' · '+type+(html?' · page HTML, pas un worker':'')+(response.ok&&likelyJs?' · fichier potentiellement utilisable':'');
+  }catch(err){li.textContent=path+' : erreur réseau ('+err.message+')';}
+ }
+};</script></body></html>
