@@ -1,0 +1,287 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>V19 TEST — Fonctions regroupées</title><meta name="theme-color" content="#075b9f"><link rel="icon" type="image/png" href="logo.png"><link rel="apple-touch-icon" href="logo.png">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script>
+<style>:root{--b:#075b9f;--b2:#0a77c8;--y:#f5c400;--bg:#f4f7fa;--t:#183044;--m:#6b7b88;--r:#b71c1c}*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--t)}.app{max-width:620px;margin:auto;min-height:100vh}.head{background:linear-gradient(135deg,var(--b),var(--b2));color:white;padding:24px 18px;border-radius:0 0 24px 24px}.brand{display:flex;gap:13px;align-items:center}.logo{width:64px;height:64px;border-radius:15px;background:#fff;object-fit:cover;display:block}.brand h1{font-size:19px;margin:0}.brand p{margin:4px 0 0;font-size:13px;opacity:.9}main{padding:17px}.card{background:#fff;border-radius:18px;padding:17px;margin-bottom:14px;box-shadow:0 4px 16px #16354b12}h2{font-size:18px;margin:0 0 12px}.muted{color:var(--m);font-size:13px}.row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}button{border:0;border-radius:12px;padding:12px 15px;font-weight:700;font-size:15px;cursor:pointer}.primary{background:var(--b);color:#fff}.yellow{background:var(--y);color:#17334a}.ghost{background:#edf3f7;color:var(--t)}.danger{background:#feecec;color:var(--r)}button:disabled{opacity:.55}input,select{width:100%;padding:13px;border:1px solid #ccd9e1;border-radius:11px;font-size:16px;margin:7px 0 12px}.session{border:1px solid #dfe8ee;border-radius:15px;padding:14px;margin:10px 0}.date{font-weight:800}.pill{font-size:11px;padding:4px 8px;border-radius:99px;background:#e9f4ff;color:var(--b);font-weight:700}.countbtn{border:0;padding:5px 9px;border-radius:99px;background:#e9f4ff;color:var(--b);font-size:12px;font-weight:800}.countbtn.wait{background:#fff6cf;color:#755c00}.countrow{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:7px}.modalbg{position:fixed;inset:0;background:#0008;display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}.modal{background:#fff;border-radius:18px;padding:18px;width:min(92vw,430px);max-height:75vh;overflow:auto}.modal h2{margin-right:45px}.personline{padding:10px 0;border-top:1px solid #edf1f4;font-weight:700}.closex{float:right;background:#edf3f7;padding:8px 11px}.note{background:#fff8d8;border-left:4px solid var(--y);padding:11px;border-radius:10px;font-size:13px;margin-bottom:12px}.ok{background:#eaf7ee;border-left:4px solid #35a35b;padding:11px;border-radius:10px;font-size:13px;margin-bottom:12px}.err{color:var(--r);font-size:13px;margin:8px 0}.user{border-top:1px solid #edf1f4;padding:11px 0}.tabs{display:flex;gap:8px;margin-bottom:14px}.tabs button{flex:1}.adminblock{background:#fff;border-radius:18px;margin-bottom:14px;box-shadow:0 4px 16px #16354b12;overflow:hidden}.adminblock summary{list-style:none;cursor:pointer;padding:17px;font-weight:800;display:flex;align-items:center;justify-content:space-between;gap:10px}.adminblock summary::-webkit-details-marker{display:none}.adminblock summary:after{content:"›";font-size:25px;color:var(--b);transition:transform .2s}.adminblock[open] summary:after{transform:rotate(90deg)}.adminblock .blockbody{padding:0 17px 17px}.adminblock .blockmeta{display:block;font-weight:400;color:var(--m);font-size:12px;margin-top:3px}.summarycard{background:#e9f4ff;border:1px solid #cfe5f7;border-radius:15px;padding:14px;margin-bottom:14px}.closed{background:#f1f3f5;color:#667681}.ruleline{padding:9px 0;border-top:1px solid #edf1f4;font-size:14px}footer{text-align:center;color:#81909a;font-size:11px;padding:5px 18px 25px}.testbanner{background:#fff3cd;border:2px solid #e0a800;color:#5b4100;text-align:center;padding:12px 10px;font-weight:800;font-size:12px;line-height:1.5}.testbanner small{font-weight:500}</style></head>
+<body><div class="app"><header class="head"><div class="brand"><img class="logo" src="logo.png" alt="Logo Renforcement musculaire Cattenom"><div><h1>Renforcement musculaire Cattenom</h1><p>Lundi & jeudi · 12h00–13h00</p></div></div></header><div class="testbanner">V19 TEST · FONCTIONS ADMINISTRATEUR ACTIVÉES<br><small>Écritures autorisées uniquement dans Supabase V19 TEST · Notifications désactivées</small></div><div style="background:#fff1bc;color:#543b00;padding:14px;font-weight:800;text-align:center">APERÇU V19 SUR V18 — LECTURE SEULE — NE PAS PUBLIER SUR LE SITE PRODUCTION</div><main id="root"></main><footer>20 places · 10 places en liste d’attente</footer></div>
+<script>
+const EXPECTED_PROD_PROJECT='qnarpgpbfmvbvmzfqlei';
+if(!window.SUPABASE_URL || new URL(window.SUPABASE_URL).hostname !== EXPECTED_PROD_PROJECT+'.supabase.co'){
+ document.body.innerHTML='<main style="padding:30px;font-family:Arial"><h2>Configuration bloquée</h2><p>Ce contrôle nécessite la configuration V18 Production.</p></main>';
+ throw new Error('Projet Supabase non conforme : arrêt');
+}
+// Mémorisation de la personne sélectionnée pour la future interface définitive.
+const V19_SELECTION_KEY='cattenom_v19_selected_person';
+function rememberV19Person(){const el=document.getElementById('pick');if(el)sessionStorage.setItem(V19_SELECTION_KEY,el.value);}
+function restoreV19Person(){const el=document.getElementById('pick');if(!el)return;const saved=sessionStorage.getItem(V19_SELECTION_KEY);if(saved&&[...el.options].some(o=>o.value===saved))el.value=saved;el.addEventListener('change',rememberV19Person);}
+const sb=window.supabase.createClient(window.SUPABASE_URL,window.SUPABASE_ANON_KEY,{auth:{detectSessionInUrl:false,persistSession:true,autoRefreshToken:true}});
+// MODE DE VERIFICATION: aucune fonction RPC mutatrice n'est exécutée.
+const originalRpc=sb.rpc.bind(sb);
+const READ_ONLY_RPCS=new Set(['v19_get_upcoming_sessions','my_bookings','my_profile','admin_list_users','admin_session_detail','admin_session_overview','admin_session_identity','admin_session_cancellations','admin_cancellation_journal','admin_list_cancelled_extra_sessions','admin_list_extra_sessions','admin_get_booking_lock','session_participants','admin_session_history','v19_booking_is_open']);
+sb.rpc=(name,args)=>{
+ if(!READ_ONLY_RPCS.has(name)){
+  const msg='Aucune modification autorisée dans cette prévisualisation : '+name;
+  alert(msg);
+  return Promise.resolve({data:null,error:{message:msg}});
+ }
+ return originalRpc(name,args);
+};
+const root=document.getElementById('root');let me=null;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function fr(d){return new Date(d+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}
+function displayName(n){let a=String(n||'').trim().split(/\s+/).filter(Boolean);if(!a.length)return '';if(a.length===1)return a[0];let isUpper=x=>x===x.toLocaleUpperCase('fr-FR')&&x!==x.toLocaleLowerCase('fr-FR');if(isUpper(a[0]))return [...a.slice(1),a[0]].join(' ');return a[0]+' '+a.slice(1).map(x=>x.toLocaleUpperCase('fr-FR')).join(' ')}
+function parisNow(){const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Paris',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());let o={};for(const x of parts)o[x.type]=x.value;return new Date(Date.UTC(+o.year,+o.month-1,+o.day,+o.hour,+o.minute))}
+function sessionCloseAt(d){const x=new Date(d+'T00:00:00Z');x.setUTCHours(12,15,0,0);return x}
+function isSessionClosed(d){return parisNow()>=sessionCloseAt(d)}
+function participantBookingOpen(d){const session=new Date(d+'T00:00:00Z');const day=session.getUTCDay();if(day!==1&&day!==4)return false;const opening=new Date(session);opening.setUTCDate(opening.getUTCDate()-(day===1?7:10));opening.setUTCHours(8,30,0,0);const now=parisNow();return now>=opening&&now<sessionCloseAt(d)}
+function login(msg=''){root.innerHTML=`<div class="card"><h2>Connexion</h2><input id="email" type="email" placeholder="Adresse e-mail" autocomplete="email"><input id="pw" type="password" placeholder="Mot de passe" autocomplete="current-password"><div id="err" class="err">${esc(msg)}</div><button class="primary" style="width:100%" onclick="doLogin()">Se connecter</button><button class="ghost" style="width:100%;margin-top:8px" onclick="forgot()">Mot de passe oublié ?</button></div>`}
+async function doLogin(){let email=document.getElementById('email').value.trim(),password=document.getElementById('pw').value;let {error}=await sb.auth.signInWithPassword({email,password});if(error)return login('E-mail ou mot de passe incorrect.');await boot()}
+async function forgot(){
+let email=document.getElementById('email')?.value.trim();if(!email)return alert('Renseigne d’abord ton adresse e-mail.');let {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});alert(error?error.message:'Un e-mail de réinitialisation vient d’être envoyé.')}
+function setPassword(){root.innerHTML=`<div class="card"><h2>Créer votre mot de passe</h2><div class="muted">Choisissez votre mot de passe personnel.</div><input id="npw" type="password" placeholder="Nouveau mot de passe"><input id="cpw" type="password" placeholder="Confirmer le mot de passe"><button class="primary" style="width:100%" onclick="savePassword()">Enregistrer mon mot de passe</button></div>`}
+async function savePassword(){
+
+ const a=document.getElementById('npw').value,b=document.getElementById('cpw').value;
+ if(a.length<6)return alert('Choisissez au moins 6 caractères.');
+ if(a!==b)return alert('Les mots de passe ne correspondent pas.');
+ const {data:{session},error:sessionError}=await sb.auth.getSession();
+ if(sessionError||!session){return alert('Session de récupération absente. Ouvrez le lien reçu dans Safari et terminez la procédure dans ce même onglet, sans passer par l’icône de l’application. Demandez un nouveau lien si nécessaire.');}
+ const {error}=await sb.auth.updateUser({password:a});
+ if(error)return alert('Impossible de modifier le mot de passe : '+error.message);
+ alert('Mot de passe enregistré.');
+ history.replaceState({},'',location.pathname);
+ passwordFlow=false;
+ await boot();
+}
+async function boot(){let {data:{session}}=await sb.auth.getSession();if(!session)return login();let {data,error}=await sb.rpc('my_profile').then(({data,error})=>({data:data?.[0]||null,error}));if(error||!data||!data.is_active){await sb.auth.signOut();return login('Accès refusé : cette adresse e-mail n’est pas autorisée.')}me=data;await home()}
+function yesterdayParisDate(){const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Paris',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());const p=Object.fromEntries(parts.map(x=>[x.type,x.value]));const d=new Date(Date.UTC(Number(p.year),Number(p.month)-1,Number(p.day)-1));return d.toISOString().slice(0,10)}
+function openingDateLabel(d){const dt=new Date(d+'T12:00:00Z');const wd=dt.getUTCDay();const offset=(wd+6)%7;dt.setUTCDate(dt.getUTCDate()-offset-7);return dt.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'})+' à 8h30'}
+async function home(opts={}){let [{data,error},{data:mine,error:mineError}]=await Promise.all([sb.rpc('v19_get_upcoming_sessions'),sb.rpc('my_bookings')]);if(error)return root.innerHTML=`<div class="card"><div class="err">${esc(error.message)}</div></div>`;if(mineError)console.warn('Lecture des inscriptions personnelles impossible',mineError);let myBookings=new Map((mine||[]).map(b=>[b.session_date,b]));let promotionMessage='';const stateKey='cattenom_booking_state_'+me.id;let previous={};try{previous=JSON.parse(localStorage.getItem(stateKey)||'{}')}catch(e){}for(const [d,b] of myBookings){if(previous[d]?.status==='waitlist'&&b.status==='booked')promotionMessage='🎉 Une place s’est libérée : vous êtes maintenant inscrit(e) !'}const current={};for(const [d,b] of myBookings)current[d]={status:b.status,position:b.position};localStorage.setItem(stateKey,JSON.stringify(current));let cards=(data||[]).map(s=>{let my=myBookings.get(s.session_date);let closed=isSessionClosed(s.session_date);let locked=!!s.is_locked;let open=!!s.booking_open&&!locked&&!closed;let full=Number(s.booked_count)>=20;let waitFull=Number(s.wait_count)>=10;let state=closed?'Réservations clôturées':locked?'🔒 Inscriptions bloquées':!s.booking_open?'🕒 Ouverture '+openingDateLabel(s.session_date):full?(waitFull?'Séance et liste d’attente complètes':'🟠 Séance complète · liste d’attente ouverte'):'🟢 Réservations ouvertes';let action=my?`<div class="ok">${my.status==='waitlist'?'Vous êtes en liste d’attente'+(my.position?' · position '+my.position:''):'Vous êtes inscrit(e) à cette séance.'}</div><button class="ghost" onclick="cancel('${s.session_date}')">Annuler mon inscription</button>`:`<button class="yellow ${open?'':'closed'}" ${open&&!waitFull?'':'disabled'} onclick="book('${s.session_date}')">${open?(full?(waitFull?'Liste d’attente complète':'Rejoindre la liste d’attente'):'Réserver'):(locked?'Inscriptions bloquées':closed?'Réservations clôturées':'Ouverture prochaine')}</button>`;return `<div class="session"><div class="date">${fr(s.session_date)}</div><div class="muted">12h00–13h00</div><div class="muted" style="margin-top:7px;font-weight:700">${state}</div><div class="countrow"><button class="countbtn" onclick="showPeople('${s.session_date}','booked')">${s.booked_count}/20 inscrits</button><button class="countbtn wait" onclick="showPeople('${s.session_date}','waitlist')">${s.wait_count}/10 en attente</button></div><div style="margin-top:10px">${action}</div></div>`}).join('');root.innerHTML=`<div class="row" style="margin-bottom:14px"><div><b>Bonjour ${esc(displayName(me.full_name).split(' ')[0])} 👋</b><div class="muted">${me.is_admin?'Administrateur':'Participant'}</div></div><button class="ghost" onclick="logout()">Déconnexion</button></div>${me.is_admin?'<div class="tabs"><button class="primary" onclick="home()">Réservations</button><button class="ghost" onclick="admin()">Administration</button></div>':''}${promotionMessage?`<div class="ok"><b>${promotionMessage}</b></div>`:''}<div class="card"><div class="row"><h2 style="margin:0">Séances à venir</h2><button class="ghost" onclick="refreshBookings()">🔄 Actualiser</button></div><div class="note">Les réservations ouvrent le lundi de la semaine précédente à 8h30. Les séances bloquées ou non encore ouvertes restent visibles.</div>${cards||'<div class="muted">Aucune séance à venir.</div>'}</div>`}
+async function showPeople(d,status){let {data,error}=await sb.rpc('session_participants',{p_session_date:d});if(error)return alert('Impossible de charger la liste : '+error.message);let list=(data||[]).filter(x=>x.booking_status===status);let title=status==='booked'?'Participants inscrits':'Liste d’attente';let rows=list.map((x,i)=>`<div class="personline">${status==='waitlist'?esc(String(x.waitlist_position||i+1))+'. ':''}${esc(displayName(x.full_name))}</div>`).join('')||'<div class="muted">Aucune personne pour le moment.</div>';document.body.insertAdjacentHTML('beforeend',`<div class="modalbg" id="peopleModal" onclick="if(event.target===this)this.remove()"><div class="modal"><button class="closex" onclick="peopleModal.remove()">✕</button><h2>${title}</h2><div class="muted" style="margin-bottom:10px">${fr(d)} · 12h00–13h00</div>${rows}</div></div>`)}
+async function book(d){
+let {data,error}=await sb.rpc('v19_book_session',{p_session_date:d});if(error)return alert(error.message);alert(data==='waitlist'?'Vous êtes en liste d’attente.':'Réservation confirmée.');home()}
+async function cancel(d){
+if(!confirm('Annuler votre inscription à cette séance ?'))return;let {error}=await sb.rpc('v19_cancel_booking',{p_session_date:d});if(error)return alert(error.message);home()}
+async function logout(){await sb.auth.signOut();me=null;login()}
+async function refreshBookings(){const btn=document.querySelector('button[onclick="refreshBookings()"]');if(btn){btn.disabled=true;btn.textContent='Actualisation…'}try{await home({manual:true})}catch(e){alert('Actualisation impossible : '+e.message)}finally{if(btn&&btn.isConnected){btn.disabled=false;btn.textContent='🔄 Actualiser'}}}
+async function refreshAdmin(){
+ const btn=document.querySelector('button[onclick="refreshAdmin()"]');
+ if(btn){btn.disabled=true;btn.textContent='Actualisation…';}
+ const sections=[...document.querySelectorAll('details.adminblock')];
+ const opened=sections.map((section,index)=>section.open?index:null).filter(index=>index!==null);
+ const fields={};
+ document.querySelectorAll('details.adminblock input').forEach(el=>{if(el.id)fields[el.id]=el.value;});
+ try{
+  await admin();
+  document.querySelectorAll('details.adminblock').forEach((section,index)=>{section.open=opened.includes(index);});
+  Object.entries(fields).forEach(([id,value])=>{const el=document.getElementById(id);if(el)el.value=value;});
+  const fresh=document.querySelector('button[onclick="refreshAdmin()"]');
+  if(fresh){fresh.textContent='✓ Actualisé';setTimeout(()=>{if(fresh.isConnected)fresh.textContent='🔄 Actualiser';},1300);}
+ }catch(e){alert('Actualisation impossible : '+e.message);if(btn&&btn.isConnected){btn.disabled=false;btn.textContent='🔄 Actualiser';}}
+}
+async function admin(openSection=-1){let [{data:users,error:ue},{data:sessions,error:se},{data:cancelledExtras,error:ce}]=await Promise.all([sb.rpc('admin_list_users'),sb.rpc('admin_session_overview'),sb.rpc('admin_list_cancelled_extra_sessions')]);if(ue||se||ce)return alert((ue||se||ce).message);let activeUsers=(users||[]).filter(u=>u.is_active).length;let us=(users||[]).map(u=>{let self=u.id===me.id;let protectedAdmin=u.is_admin===true;let action=(self||protectedAdmin)?'':`<button class="${u.is_active?'danger':'ghost'}" onclick="setUserActive('${u.id}',${u.is_active?'false':'true'})">${u.is_active?'Désactiver':'Réactiver'}</button><button class="danger" onclick="deleteUser('${u.id}','${esc(u.email)}')">Archiver</button><button class="ghost" onclick="promoteUser('${u.id}')">Nommer administrateur</button>`;return `<div class="user"><div class="row"><div><b>${esc(displayName(u.full_name))}</b><div class="muted">${esc(u.email)} · ${u.is_admin?'Administrateur':'Participant'} · ${u.is_active?'Actif':'Désactivé'}</div></div><span class="pill">${u.is_admin?'ADMIN':'UTILISATEUR'}</span></div>${action?`<div style="margin-top:9px">${action}</div>`:''}</div>`}).join('');let sessionKinds=await Promise.all((sessions||[]).map(async s=>{try{const {data,error}=await sb.rpc('admin_session_identity',{p_session_date:s.session_date});if(error)throw error;return data?.session_type==='extra'?'extra':'regular'}catch(e){console.warn('Type de séance non disponible',s.session_date,e);return 'regular'}}));let regularSessions=(sessions||[]).filter((s,i)=>sessionKinds[i]!=='extra');let extraSessions=(sessions||[]).filter((s,i)=>sessionKinds[i]==='extra');let renderSessionList=items=>items.map(s=>{let closed=isSessionClosed(s.session_date);return `<div class="session"><div class="row"><b>${fr(s.session_date)}</b><span class="pill">${s.booked_count}/20 · ${s.wait_count}/10 attente</span></div>${closed?'<div class="muted" style="margin-top:7px">🔒 Séance clôturée</div>':''}<button class="ghost" style="margin-top:9px" onclick="sessionDetail('${s.session_date}')">Gérer cette séance</button></div>`}).join('');let ss=renderSessionList(regularSessions);let extraSs=renderSessionList(extraSessions);let cancelledHtml=(cancelledExtras||[]).map(s=>`<div class="session"><div class="row"><b>${fr(s.session_date)}</b><span class="pill">${s.booked_count}/20 · ${s.wait_count}/10 attente</span></div><button class="ghost" style="margin-top:9px" onclick="restoreExtraSessionById('${s.session_id}')">↩️ Rétablir cette séance</button></div>`).join('')||'<div class="muted">Aucune séance exceptionnelle annulée à rétablir.</div>';let waits=(sessions||[]).filter(s=>s.wait_count>0).map(s=>`<div class="session"><div class="row"><b>${fr(s.session_date)}</b><button class="countbtn wait" onclick="showPeople('${s.session_date}','waitlist')">${s.wait_count}/10 en attente</button></div><button class="ghost" style="margin-top:9px" onclick="sessionDetail('${s.session_date}')">Gérer la séance</button></div>`).join('')||'<div class="muted">Aucune personne en liste d’attente.</div>';let next=(sessions||[]).find(s=>!isSessionClosed(s.session_date));let summary=next?`<div class="summarycard"><b>Prochaine séance : ${fr(next.session_date)}</b><div class="muted" style="margin-top:5px">${next.booked_count}/20 inscrits · ${Math.max(0,20-next.booked_count)} place(s) disponible(s) · ${next.wait_count}/10 en attente</div></div>`:'';root.innerHTML=`<div class="row" style="margin-bottom:14px"><div><b>🛡️ Administration</b><div class="muted">Les 2 administrateurs ont les mêmes droits</div><a href="simulation-v19-test-validation-globale.html" style="display:inline-block;margin-top:8px;color:#075b9f;font-size:13px;font-weight:700">Ouvrir la simulation globale fictive ↗</a></div><div class="row"><button class="ghost" onclick="refreshAdmin()">🔄 Actualiser</button><button class="ghost" onclick="home()">Retour</button></div></div>${summary}<details class="adminblock"><summary><span>👥 Utilisateurs<span class="blockmeta">${activeUsers} actif(s) · ${(users||[]).length} au total</span></span></summary><div class="blockbody"><h2>Ajouter un utilisateur</h2><input id="an" placeholder="Prénom NOM"><input id="ae" type="email" placeholder="Adresse e-mail"><button class="yellow" style="width:100%;margin-top:10px" onclick="invite()">Ajouter à la liste autorisée</button><div id="amsg" class="err"></div><h2 style="margin-top:22px">Personnes autorisées</h2>${us}</div></details><details class="adminblock"><summary><span>🏋️ Séances<span class="blockmeta">Gérer les inscriptions et participants</span></span></summary><div class="blockbody"><div class="tabs"><button id="tabRegular" class="primary" onclick="showSessionTab('regular')">Séances à venir</button><button id="tabExtra" class="ghost" onclick="showSessionTab('extra')">Séances exceptionnelles</button></div><div id="panelRegular"><h2>Séances à venir</h2>${ss||'<div class="muted">Aucune séance classique.</div>'}</div><div id="panelExtra" style="display:none"><h2>Ajouter une séance exceptionnelle</h2><input id="extraDate" type="date"><button class="yellow" onclick="addExtraSession()">Ajouter la séance</button><h2 style="margin-top:20px">Séances exceptionnelles à venir</h2>${extraSs||'<div class="muted">Aucune séance exceptionnelle à venir.</div>'}<h2>Séances exceptionnelles annulées</h2>${cancelledHtml}</div></div></details><details class="adminblock"><summary><span>⏳ Listes d’attente<span class="blockmeta">Voir rapidement les personnes en attente</span></span></summary><div class="blockbody">${waits}</div></details><details class="adminblock"><summary><span>📚 Historique des séances et annulations<span class="blockmeta">Séances passées · inscriptions · listes d’attente · annulations</span></span></summary><div class="blockbody"><p class="muted">Choisissez une période (366 jours maximum). Les inscriptions et listes d’attente sont affichées sous forme de totaux historiques ; les annulations peuvent être consultées individuellement.</p><div class="row" style="gap:8px;flex-wrap:wrap"><label>Du <input id="historyFrom" type="date"></label><label>Au <input id="historyTo" type="date"></label></div><button class="ghost" onclick="loadSessionHistory()" style="margin:10px 0">Afficher l’historique</button><div id="historyResults" class="muted">Sélectionnez une période puis cliquez sur Afficher l’historique.</div></div></details><details class="adminblock"><summary><span>🧾 Journal des annulations<span class="blockmeta">Toutes les annulations, y compris pour les séances à venir</span></span></summary><div class="blockbody"><p class="muted">Sélectionnez une période de dates d’annulation (366 jours maximum). Chaque annulation est une opération distincte, même pour une même personne.</p><div class="row" style="gap:8px;flex-wrap:wrap"><label>Du <input id="cancelFrom" type="date"></label><label>Au <input id="cancelTo" type="date"></label></div><button class="ghost" onclick="loadCancellationJournal()" style="margin:10px 0">Afficher les annulations</button><div id="cancelJournalResults" class="muted">Choisissez une période pour consulter les annulations.</div></div></details><details class="adminblock"><summary><span>⚙️ Informations<span class="blockmeta">Règles de réservation</span></span></summary><div class="blockbody"><div class="ruleline"><b>Séances</b><br><span class="muted">Lundi et jeudi · 12h00–13h00</span></div><div class="ruleline"><b>Ouverture</b><br><span class="muted">Chaque lundi à 8h30 pour les séances de la semaine suivante.</span></div><div class="ruleline"><b>Fermeture</b><br><span class="muted">À 12h15 le jour de la séance.</span></div><div class="ruleline"><b>Capacité</b><br><span class="muted">20 inscrits · 10 personnes maximum en liste d’attente.</span></div><div class="ruleline"><b>Administration</b><br><span class="muted">Les administrateurs peuvent ajouter des participants avant l’ouverture normale, mais plus après 12h15 le jour de la séance.</span></div></div></details>`;showSessionTab(sessionStorage.getItem('cattenom_admin_session_tab')==='extra'?'extra':'regular');const historyTo=document.getElementById('historyTo');if(historyTo)historyTo.value=yesterdayParisDate();if(openSection>=0){const sections=root.querySelectorAll('details.adminblock');if(sections[openSection])sections[openSection].open=true}}
+
+function showSessionTab(kind){sessionStorage.setItem('cattenom_admin_session_tab',kind);const extra=kind==='extra';const a=document.getElementById('panelRegular'),b=document.getElementById('panelExtra'),ta=document.getElementById('tabRegular'),tb=document.getElementById('tabExtra');if(!a||!b)return;a.style.display=extra?'none':'block';b.style.display=extra?'block':'none';ta.className=extra?'ghost':'primary';tb.className=extra?'primary':'ghost';}
+// Historique V19 TEST : RPC réservées aux administrateurs.
+async function loadSessionHistory(){
+ const from=document.getElementById('historyFrom')?.value,to=document.getElementById('historyTo')?.value;
+ const target=document.getElementById('historyResults');
+ if(!from||!to){target.textContent='Indiquez les deux dates.';return;}
+ if(from>to){target.textContent='La date de début doit précéder la date de fin.';return;}
+ const days=Math.round((new Date(to+'T12:00:00Z')-new Date(from+'T12:00:00Z'))/86400000);
+ if(days>366){target.textContent='Choisissez une période de 366 jours maximum.';return;}
+ target.textContent='Chargement de l’historique…';
+ const {data,error}=await sb.rpc('admin_session_history',{p_from_date:from,p_to_date:to});
+ if(error){target.textContent='Impossible de charger l’historique : '+error.message;return;}
+ const rows=data||[];
+ if(!rows.length){target.textContent='Aucune séance trouvée pour cette période.';return;}
+ target.innerHTML=rows.map((r,i)=>`<div class="session"><b>${esc(fr(r.session_date))}</b><div class="muted">${Number(r.booked_count)||0} inscrit(s) · ${Number(r.wait_count)||0} en attente · ${Number(r.cancellation_count)||0} annulation(s)</div><button class="ghost" style="margin-top:8px" onclick="showSessionCancellations('${esc(r.session_date)}', 'historyCancel${i}')">Voir les annulations</button><div id="historyCancel${i}" style="margin-top:8px"></div></div>`).join('');
+}
+async function showSessionCancellations(date,id){
+ const target=document.getElementById(id);if(!target)return;
+ target.textContent='Chargement des annulations…';
+ const {data,error}=await sb.rpc('admin_session_cancellations',{p_session_date:date});
+ if(error){target.textContent='Impossible de charger les annulations : '+error.message;return;}
+ if(!data?.length){target.textContent='Aucune annulation enregistrée.';return;}
+ target.innerHTML=data.map(x=>`<div class="user"><b>${esc(x.full_name||'Participant')}</b><div class="muted">${esc(x.email||'')} · ${x.previous_status==='waitlist'?'Liste d’attente':'Inscrit(e)'} · ${x.cancelled_by==='admin'?'Par un administrateur':'Par le participant'} · ${esc(x.cancelled_at?new Date(x.cancelled_at).toLocaleString('fr-FR'):'')}</div></div>`).join('');
+}
+async function loadCancellationJournal(){
+ const from=document.getElementById('cancelFrom')?.value,to=document.getElementById('cancelTo')?.value,target=document.getElementById('cancelJournalResults');
+ if(!target)return;
+ if(!from||!to){target.textContent='Indiquez les deux dates.';return;}
+ if(from>to){target.textContent='La date de début doit précéder la date de fin.';return;}
+ const days=Math.round((new Date(to+'T12:00:00Z')-new Date(from+'T12:00:00Z'))/86400000);
+ if(days>366){target.textContent='Choisissez une période de 366 jours maximum.';return;}
+ target.textContent='Chargement des annulations…';
+ const {data,error}=await sb.rpc('admin_cancellation_journal',{p_from_date:from,p_to_date:to});
+ if(error){target.textContent='Impossible de charger le journal : '+error.message;return;}
+ if(!data?.length){target.textContent='Aucune annulation enregistrée sur cette période.';return;}
+ target.innerHTML='<div class="muted">'+data.length+' annulation(s) enregistrée(s)</div>'+data.map(x=>`<div class="session"><b>${esc(x.full_name||'Participant')}</b><div class="muted">Séance : ${esc(fr(x.session_date))} · ${x.previous_status==='waitlist'?'Liste d’attente':'Inscrit(e)'}</div><div class="muted">Annulé ${esc(new Date(x.cancelled_at).toLocaleString('fr-FR'))} · ${x.cancelled_by==='admin'?'Par un administrateur':'Par le participant'}</div></div>`).join('');
+}
+async function setUserActive(id,isActive){
+let verb=isActive?'réactiver':'désactiver';if(!confirm(`Voulez-vous ${verb} cette personne ?`))return;let {error}=await sb.rpc('admin_set_user_active',{p_user_id:id,p_is_active:isActive});if(error)return alert(error.message);alert(isActive?'Utilisateur réactivé.':'Utilisateur désactivé.');admin()}
+async function deleteUser(id,email){
+if(!confirm('Archiver cette personne ? Son accès sera désactivé, ses réservations conservées.'))return;const {error}=await sb.rpc('admin_archive_user',{p_user_id:id});if(error)return alert(error.message);alert('Participant archivé.');admin()}
+async function invite(){
+const full_name=an.value.trim(),email=ae.value.trim();if(!full_name||!email)return alert('Nom et e-mail obligatoires.');amsg.textContent='Ajout en cours…';const {data:id,error}=await sb.rpc('admin_add_user',{p_full_name:full_name,p_email:email});if(error){amsg.textContent=error.message;return}amsg.textContent='Participant autorisé ajouté. La création du compte de connexion et l’envoi d’invitation ne sont pas encore automatisés dans TEST.';alert('Participant ajouté à la liste autorisée. Aucun e-mail envoyé.');admin()}
+async function promoteUser(id){
+if(!confirm('Donner les droits administrateur à cette personne ?'))return;const {error}=await sb.rpc('admin_promote_user',{p_user_id:id});if(error)return alert(error.message);admin()}
+function sessionConfirm(message){
+ return new Promise(resolve=>{
+  const overlay=document.createElement('div');overlay.className='modalbg';
+  overlay.innerHTML=`<div class="modal" role="dialog" aria-modal="true"><h2>Confirmation</h2><p>${esc(message)}</p><div class="row" style="justify-content:flex-end"><button class="ghost" data-answer="no">Annuler</button><button class="primary" data-answer="yes">Confirmer</button></div></div>`;
+  const finish=value=>{overlay.remove();resolve(value)};
+  overlay.querySelector('[data-answer="no"]').onclick=()=>finish(false);
+  overlay.querySelector('[data-answer="yes"]').onclick=()=>finish(true);
+  document.body.appendChild(overlay);
+ });
+}
+async function addExtraSession(){
+
+ const d=document.getElementById('extraDate')?.value;
+ if(!d)return alert('Choisissez une date.');
+ if(!await sessionConfirm('Ajouter ou rétablir la séance exceptionnelle du '+fr(d)+' ?'))return;
+ const {data,error}=await sb.rpc('admin_create_or_restore_extra_session',{p_session_date:d});
+ if(error)return alert(error.message);
+ alert(data==='restored'?'Séance annulée rétablie.':'Séance exceptionnelle créée.');
+ await admin(1);
+}
+async function changeExtraSession(d,original){
+
+ const nd=document.getElementById('newSessionDate')?.value;
+ if(!nd)return alert('Choisissez une date.');
+ if(!await sessionConfirm('Déplacer cette séance exceptionnelle au '+fr(nd)+' ?'))return;
+ const {error}=await sb.rpc('admin_move_extra_session_by_id',{p_session_id:original,p_new_date:nd});
+ if(error)return alert(error.message);
+ await admin(1);
+}
+async function cancelExtraSession(original){
+
+ if(!await sessionConfirm('Annuler cette séance exceptionnelle ? Les inscriptions seront conservées.'))return;
+ const {error}=await sb.rpc('admin_cancel_extra_session_by_id',{p_session_id:original});
+ if(error)return alert(error.message);
+ await admin(1);
+}
+async function restoreExtraSessionById(id){
+
+ if(!await sessionConfirm('Rétablir cette séance exceptionnelle avec ses participants inscrits ?'))return;
+ const {error}=await sb.rpc('admin_restore_extra_session_by_id',{p_session_id:id});
+ if(error)return alert(error.message);
+ await admin(1);
+}
+async function restoreRegularSession(original){
+
+ if(!await sessionConfirm('Rétablir cette séance habituelle ?'))return;
+ const {error}=await sb.rpc('admin_restore_regular_session',{p_original_date:original});
+ if(error)return alert(error.message);
+ await admin(1);
+}
+async function sessionDetail(d){let [{data:detail,error},{data:users},{data:moved,error:moveCheckError},{data:lockState,error:lockError}]=await Promise.all([sb.rpc('admin_session_detail',{p_session_date:d}),sb.rpc('admin_list_users'),sb.rpc('admin_session_identity',{p_session_date:d}),sb.rpc('admin_get_booking_lock',{p_session_date:d})]);if(error||moveCheckError||lockError)return alert((error||moveCheckError||lockError).message);let rows=(detail||[]).map(x=>{const matches=(users||[]).filter(u=>(x.email&&u.email&&u.email.toLowerCase()===x.email.toLowerCase())||(x.full_name&&u.full_name&&u.full_name.trim().toLowerCase()===x.full_name.trim().toLowerCase()));const unique=matches.length===1?matches[0].id:null;const userId=x.user_id||x.allowed_user_id||x.participant_id||unique;const validId=typeof userId==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(userId);return `<div class="user"><div class="row"><div><b>${esc(displayName(x.full_name))}</b><div class="muted">${x.status==='booked'?'Inscrit':'Attente n°'+x.waitlist_position}</div></div><button class="danger" ${validId?`onclick="adminRemove('${d}','${userId}')"`:'disabled title="Identifiant introuvable : contactez l’administrateur"'}>Retirer</button></div></div>`}).join('')||'<div class="muted">Aucun participant.</div>';// Exclure les personnes déjà inscrites OU en attente sur cette séance.
+const occupiedIds=new Set((detail||[]).flatMap(x=>[x.user_id,x.allowed_user_id,x.participant_id].filter(Boolean).map(v=>String(v).toLowerCase())));
+const occupiedEmails=new Set((detail||[]).map(x=>String(x.email||'').trim().toLowerCase()).filter(Boolean));
+const occupiedNames=new Set((detail||[]).map(x=>String(x.full_name||'').trim().toLocaleLowerCase('fr-FR')).filter(Boolean));
+let availableUsers=(users||[]).filter(u=>u.is_active && !occupiedIds.has(String(u.id||'').toLowerCase()) && !occupiedEmails.has(String(u.email||'').trim().toLowerCase()) && !occupiedNames.has(String(u.full_name||'').trim().toLocaleLowerCase('fr-FR'))).sort((a,b)=>displayName(a.full_name).localeCompare(displayName(b.full_name),'fr',{sensitivity:'base'}));
+let opts=availableUsers.map(u=>`<option value="${u.id}">${esc(displayName(u.full_name))} — ${esc(u.email)}</option>`).join('');let identity=moved||{};let isExtra=identity.session_type==='extra';let original=isExtra?identity.session_id:(identity.original_date||d);let closed=isSessionClosed(d);root.innerHTML=`<div class="row" style="margin-bottom:14px"><b>${fr(d)}</b><button class="ghost" onclick="admin()">Retour</button></div><div class="card"><h2>${closed?'🔒 Séance clôturée':'Ajouter avant ou après l’ouverture'}</h2>${closed?'<div class="muted">Les ajouts sont fermés depuis 12h15.</div>':`<select id="pick" ${availableUsers.length?'':'disabled'}><option value="">${availableUsers.length?'Choisir une personne non inscrite…':'Toutes les personnes actives sont déjà inscrites ou en attente'}</option>${opts}</select><button class="yellow" style="width:100%" ${availableUsers.length?'':'disabled'} onclick="adminBook('${d}')">Ajouter à la séance</button>`}</div><div class="card"><h2>🔐 Réservations des participants</h2><div class="muted" style="margin-bottom:10px">${lockState?"🔒 Inscriptions bloquées. Les réservations existantes sont conservées.":"🔓 Inscriptions non verrouillées. Les horaires habituels restent applicables."}</div><button class="${lockState?"ghost":"danger"}" style="width:100%" onclick="setSessionBookingLock('${d}',${lockState?"false":"true"})">${lockState?"🔓 Débloquer les inscriptions":"🔒 Bloquer les inscriptions"}</button></div><div class="card"><h2>Modifier cette séance</h2><div class="muted">Déplacer la séance conserve tous les inscrits et la liste d’attente. Aucune notification ne sera envoyée pendant ce test.</div><input id="newSessionDate" type="date" value="${d}"><button class="ghost" style="width:100%;margin-bottom:10px" onclick="${isExtra?`changeExtraSession('${d}','${original}')`:`adminMoveSession('${d}')`}">📅 Modifier la date</button>${!isExtra&&original!==d?`<button class="ghost" style="width:100%;margin-bottom:10px" onclick="adminRestoreSessionDate('${d}','${original}')">↩️ Remettre à la date initiale (${fr(original)})</button>`:''}<button class="danger" style="width:100%" onclick="${isExtra?`cancelExtraSession('${original}')`:`adminCancelSession('${d}')`}">❌ Annuler la séance</button></div><div class="card"><h2>Participants et attente</h2>${rows}</div></div>`;restoreV19Person()}
+
+async function setSessionBookingLock(d,locked){
+
+ if(!await sessionConfirm((locked?'Bloquer':'Débloquer')+' les nouvelles inscriptions pour le '+fr(d)+' ? Les réservations existantes seront conservées.'))return;
+ const {error}=await sb.rpc('admin_set_booking_lock',{p_session_date:d,p_is_locked:locked});
+ if(error)return alert('Modification impossible : '+error.message);
+ await sessionDetail(d);
+}
+async function adminMoveSession(d){
+
+  let nd=document.getElementById('newSessionDate')?.value;
+  if(!nd)return alert('Choisissez une nouvelle date.');
+  if(nd===d)return alert('Choisissez une date différente.');
+  if(!await sessionConfirm(`Déplacer la séance du ${fr(d)} au ${fr(nd)} ? Les inscriptions seront conservées.`))return;
+  let original=d;
+  let {data:identity,error:xe}=await sb.rpc('admin_session_identity',{p_session_date:d});
+  if(xe)return alert('Impossible de vérifier la séance : '+xe.message);
+  if(identity?.session_type==='extra')return alert('Cette opération est réservée aux séances habituelles.');
+  original=identity?.original_date||d;
+  let {error}=await sb.rpc('admin_move_regular_session',{p_original_date:original,p_new_date:nd});
+  if(error)return alert(error.message);
+  alert('Séance déplacée. Les inscriptions sont conservées.');
+  admin(1);
+}
+async function adminRestoreSessionDate(d,original){
+
+  if(!await sessionConfirm(`Rétablir la date initiale du ${fr(original)} ?`))return;
+  let {error}=await sb.rpc('admin_move_regular_session',{p_original_date:original,p_new_date:original});
+  if(error)return alert(error.message);
+  alert('Séance remise à sa date initiale. Les inscriptions sont conservées.');
+  admin(1);
+}
+async function adminCancelSession(d){
+
+  if(!await sessionConfirm(`Annuler la séance du ${fr(d)} ? Les inscriptions seront conservées.`))return;
+
+  let {data:identity,error:originError}=await sb.rpc('admin_session_identity',{p_session_date:d});
+  if(originError)return alert(originError.message);
+  if(identity?.session_type==='extra')return alert('Cette opération est réservée aux séances habituelles.');
+  const original=identity?.original_date||d;
+  let {error}=await sb.rpc('admin_cancel_regular_session',{p_original_date:original});
+  if(error)return alert(error.message);
+  alert('Séance annulée dans TEST. Les réservations sont conservées ; aucune notification n’a été envoyée.');
+  admin(1);
+}
+async function adminBook(d){
+if(!pick.value)return;let {data,error}=await sb.rpc('v19_admin_book_user',{p_session_date:d,p_user_id:pick.value});if(error)return alert(error.message);alert(data==='waitlist'?'Ajouté en liste d’attente.':'Ajouté à la séance.');sessionDetail(d)}
+async function adminRemove(d,id){
+if(!id||id==='undefined')return alert('Identifiant participant manquant. Aucun retrait effectué.');if(!confirm('Retirer cette personne de la séance ?'))return;let {error}=await sb.rpc('v19_admin_remove_user',{p_session_date:d,p_user_id:id});if(error)return alert(error.message);sessionDetail(d)}
+let passwordFlow=false;
+let pendingAuthLink=null;
+function confirmAuthLinkScreen(kind){
+  const label=kind==='invite'?'Activer mon compte':'Continuer vers le nouveau mot de passe';
+  const title=kind==='invite'?'Activation de votre compte':'Réinitialisation du mot de passe';
+  root.innerHTML=`<div class="card"><h2>${title}</h2><div class="muted">Pour votre sécurité, le lien n’est validé qu’après votre action sur le bouton ci-dessous.</div><button class="primary" style="width:100%;margin-top:16px" onclick="confirmAuthLink()">${label}</button><div id="authLinkErr" class="err"></div></div>`;
+}
+async function confirmAuthLink(){
+
+
+  if(!pendingAuthLink)return login('Le lien est invalide ou a expiré. Demandez un nouvel e-mail.');
+  const btn=root.querySelector('button'); if(btn){btn.disabled=true;btn.textContent='Validation…'}
+  const {tokenHash,type}=pendingAuthLink;
+  const {data,error}=await sb.auth.verifyOtp({token_hash:tokenHash,type});
+  if(error){login('Le lien est invalide ou a expiré. Demandez un nouvel e-mail.');return}
+  const session=data?.session||(await sb.auth.getSession()).data.session;
+  if(!session){login('Session de récupération absente. Demandez un nouvel e-mail et ouvrez le lien dans Safari.');return}
+  pendingAuthLink=null; history.replaceState({},'',location.pathname); setPassword();
+}
+sb.auth.onAuthStateChange((event,session)=>{if(event==='PASSWORD_RECOVERY'&&session&&!pendingAuthLink){passwordFlow=true;setPassword()}});
+(async()=>{
+  const q=new URLSearchParams(location.search), hash=new URLSearchParams(location.hash.replace(/^#/,''));
+  const type=q.get('type')||hash.get('type');
+  const code=q.get('code');
+  const tokenHash=q.get('token_hash')||hash.get('token_hash');
+  const accessToken=hash.get('access_token');
+  const refreshToken=hash.get('refresh_token');
+  const hasTokens=!!(accessToken&&refreshToken);
+  const isPasswordLink=type==='invite'||type==='recovery';
+  const authError=q.get('error_description')||hash.get('error_description');
+  if(authError){login('Le lien est invalide ou a expiré. Demandez un nouvel e-mail.');return}
+  if(isPasswordLink||code||tokenHash||hasTokens){
+    passwordFlow=true;
+    let error=null;
+    if(code){
+      ({error}=await sb.auth.exchangeCodeForSession(code));
+    }else if(tokenHash&&isPasswordLink){
+      pendingAuthLink={tokenHash,type};
+      confirmAuthLinkScreen(type);
+      return;
+    }else if(hasTokens){
+      ({error}=await sb.auth.setSession({access_token:accessToken,refresh_token:refreshToken}));
+    }else{
+      const {data}=await sb.auth.getSession();
+      if(!data.session) error=new Error('Session d’authentification absente');
+    }
+    if(error){login('Le lien est invalide ou a expiré. Demandez un nouvel e-mail.');return}
+    const {data:{session}}=await sb.auth.getSession();
+    if(!session){login('Le lien est invalide ou a expiré. Demandez un nouvel e-mail.');return}
+    history.replaceState({},'',location.pathname);
+    setPassword();
+    return;
+  }
+  await boot();
+})();
+</script></body></html>
