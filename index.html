@@ -150,21 +150,21 @@ async function changeExtraSession(d,original){
 
  const nd=document.getElementById('newSessionDate')?.value;
  if(!nd)return alert('Choisissez une date.');
- if(!await sessionConfirm('Déplacer cette séance exceptionnelle au '+fr(nd)+' ?'))return;
+ if(!await sessionConfirm('Déplacer cette séance exceptionnelle au '+fr(nd)+' ? Opération refusée si des réservations existent.'))return;
  const {error}=await sb.rpc('admin_move_extra_session_by_id',{p_session_id:original,p_new_date:nd});
  if(error)return alert(error.message);
  await admin(1);
 }
 async function cancelExtraSession(original){
 
- if(!await sessionConfirm('Annuler cette séance exceptionnelle ? Les inscriptions seront conservées.'))return;
+ if(!await sessionConfirm('Annuler cette séance exceptionnelle ? Vérifiez les conséquences sur les réservations avant confirmation.'))return;
  const {error}=await sb.rpc('admin_cancel_extra_session_by_id',{p_session_id:original});
  if(error)return alert(error.message);
  await admin(1);
 }
 async function restoreExtraSessionById(id){
 
- if(!await sessionConfirm('Rétablir cette séance exceptionnelle avec ses participants inscrits ?'))return;
+ if(!await sessionConfirm('Rétablir cette séance exceptionnelle ? Les réservations précédemment supprimées ne seront pas recréées.'))return;
  const {error}=await sb.rpc('admin_restore_extra_session_by_id',{p_session_id:id});
  if(error)return alert(error.message);
  await admin(1);
@@ -181,7 +181,7 @@ const occupiedIds=new Set((detail||[]).flatMap(x=>[x.user_id,x.allowed_user_id,x
 const occupiedEmails=new Set((detail||[]).map(x=>String(x.email||'').trim().toLowerCase()).filter(Boolean));
 const occupiedNames=new Set((detail||[]).map(x=>String(x.full_name||'').trim().toLocaleLowerCase('fr-FR')).filter(Boolean));
 let availableUsers=(users||[]).filter(u=>u.is_active && !occupiedIds.has(String(u.id||'').toLowerCase()) && !occupiedEmails.has(String(u.email||'').trim().toLowerCase()) && !occupiedNames.has(String(u.full_name||'').trim().toLocaleLowerCase('fr-FR'))).sort((a,b)=>displayName(a.full_name).localeCompare(displayName(b.full_name),'fr',{sensitivity:'base'}));
-let opts=availableUsers.map(u=>`<option value="${u.id}">${esc(displayName(u.full_name))} — ${esc(u.email)}</option>`).join('');let identity=moved||{};let isExtra=identity.session_type==='extra';let original=isExtra?identity.session_id:(identity.original_date||d);let closed=isSessionClosed(d);root.innerHTML=`<div class="row" style="margin-bottom:14px"><b>${fr(d)}</b><button class="ghost" onclick="admin()">Retour</button></div><div class="card"><h2>${closed?'🔒 Séance clôturée':'Ajouter avant ou après l’ouverture'}</h2>${closed?'<div class="muted">Les ajouts sont fermés depuis 12h15.</div>':`<select id="pick" ${availableUsers.length?'':'disabled'}><option value="">${availableUsers.length?'Choisir une personne non inscrite…':'Toutes les personnes actives sont déjà inscrites ou en attente'}</option>${opts}</select><button class="yellow" style="width:100%" ${availableUsers.length?'':'disabled'} onclick="adminBook('${d}')">Ajouter à la séance</button>`}</div><div class="card"><h2>🔐 Réservations des participants</h2><div class="muted" style="margin-bottom:10px">${lockState?"🔒 Inscriptions bloquées. Les réservations existantes sont conservées.":"🔓 Inscriptions non verrouillées. Les horaires habituels restent applicables."}</div><button class="${lockState?"ghost":"danger"}" style="width:100%" onclick="setSessionBookingLock('${d}',${lockState?"false":"true"})">${lockState?"🔓 Débloquer les inscriptions":"🔒 Bloquer les inscriptions"}</button></div><div class="card"><h2>Modifier cette séance</h2><div class="muted">Déplacer la séance conserve tous les inscrits et la liste d’attente. Aucune notification ne sera envoyée pendant ce test.</div><input id="newSessionDate" type="date" value="${d}"><button class="ghost" style="width:100%;margin-bottom:10px" onclick="${isExtra?`changeExtraSession('${d}','${original}')`:`adminMoveSession('${d}')`}">📅 Modifier la date</button>${!isExtra&&original!==d?`<button class="ghost" style="width:100%;margin-bottom:10px" onclick="adminRestoreSessionDate('${d}','${original}')">↩️ Remettre à la date initiale (${fr(original)})</button>`:''}<button class="danger" style="width:100%" onclick="${isExtra?`cancelExtraSession('${original}')`:`adminCancelSession('${d}')`}">❌ Annuler la séance</button></div><div class="card"><h2>Participants et attente</h2>${rows}</div></div>`;restoreV19Person()}
+let opts=availableUsers.map(u=>`<option value="${u.id}">${esc(displayName(u.full_name))} — ${esc(u.email)}</option>`).join('');let identity=moved||{};let isExtra=identity.session_type==='extra';let original=isExtra?identity.session_id:(identity.original_date||d);let closed=isSessionClosed(d);root.innerHTML=`<div class="row" style="margin-bottom:14px"><b>${fr(d)}</b><button class="ghost" onclick="admin()">Retour</button></div><div class="card"><h2>${closed?'🔒 Séance clôturée':'Ajouter avant ou après l’ouverture'}</h2>${closed?'<div class="muted">Les ajouts sont fermés depuis 12h15.</div>':`<select id="pick" ${availableUsers.length?'':'disabled'}><option value="">${availableUsers.length?'Choisir une personne non inscrite…':'Toutes les personnes actives sont déjà inscrites ou en attente'}</option>${opts}</select><button class="yellow" style="width:100%" ${availableUsers.length?'':'disabled'} onclick="adminBook('${d}')">Ajouter à la séance</button>`}</div><div class="card"><h2>🔐 Réservations des participants</h2><div class="muted" style="margin-bottom:10px">${lockState?"🔒 Inscriptions bloquées. Les réservations existantes sont conservées.":"🔓 Inscriptions non verrouillées. Les horaires habituels restent applicables."}</div><button class="${lockState?"ghost":"danger"}" style="width:100%" onclick="setSessionBookingLock('${d}',${lockState?"false":"true"})">${lockState?"🔓 Débloquer les inscriptions":"🔒 Bloquer les inscriptions"}</button></div><div class="card"><h2>Modifier cette séance</h2><div class="muted">Les déplacements de séances habituelles utilisent les fonctions historiques V18. Le déplacement d’une séance supplémentaire est refusé si elle possède des réservations. Les notifications ne sont pas désactivées côté V18.</div><input id="newSessionDate" type="date" value="${d}"><button class="ghost" style="width:100%;margin-bottom:10px" onclick="${isExtra?`changeExtraSession('${d}','${original}')`:`adminMoveSession('${d}')`}">📅 Modifier la date</button>${!isExtra&&original!==d?`<button class="ghost" style="width:100%;margin-bottom:10px" onclick="adminRestoreSessionDate('${d}','${original}')">↩️ Remettre à la date initiale (${fr(original)})</button>`:''}<button class="danger" style="width:100%" onclick="${isExtra?`cancelExtraSession('${original}')`:`adminCancelSession('${d}')`}">❌ Annuler la séance</button></div><div class="card"><h2>Participants et attente</h2>${rows}</div></div>`;restoreV19Person()}
 
 async function setSessionBookingLock(d,locked){
 
@@ -216,7 +216,7 @@ async function adminRestoreSessionDate(d,original){
 }
 async function adminCancelSession(d){
 
-  if(!await sessionConfirm(`Annuler la séance du ${fr(d)} ? Les inscriptions seront conservées.`))return;
+  if(!await sessionConfirm(`Annuler la séance du ${fr(d)} ? L’opération sera refusée si des réservations existent.`))return;
 
   let {data:identity,error:originError}=await sb.rpc('admin_session_identity',{p_session_date:d});
   if(originError)return alert(originError.message);
@@ -224,7 +224,7 @@ async function adminCancelSession(d){
   const original=identity?.original_date||d;
   let {error}=await sb.rpc('admin_cancel_regular_session',{p_original_date:original});
   if(error)return alert(error.message);
-  alert('Séance annulée dans TEST. Les réservations sont conservées ; aucune notification n’a été envoyée.');
+  alert('Séance annulée. La fonction SQL refuse l’annulation si des réservations existent.');
   admin(1);
 }
 async function adminBook(d){
