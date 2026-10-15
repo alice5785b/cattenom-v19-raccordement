@@ -1,0 +1,21 @@
+# Candidat V19 statique : ne pas associer cette branche au déploiement de production sans accord explicite.
+[build]
+  publish = "."
+
+# Les workers OneSignal doivent être servis comme JavaScript, sans cache persistant.
+[[headers]]
+  for = "/OneSignalSDKWorker.js"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Service-Worker-Allowed = "/"
+
+[[headers]]
+  for = "/onesignal-config.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/config.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
