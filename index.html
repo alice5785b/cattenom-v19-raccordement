@@ -39,11 +39,11 @@ function participantBookingOpen(d){const session=new Date(d+'T00:00:00Z');const 
 function login(msg=''){root.innerHTML=`<div class="card"><h2>Connexion</h2><input id="email" type="email" placeholder="Adresse e-mail" autocomplete="email"><input id="pw" type="password" placeholder="Mot de passe" autocomplete="current-password"><div id="err" class="err">${esc(msg)}</div><button class="primary" style="width:100%" onclick="doLogin()">Se connecter</button><button class="ghost" style="width:100%;margin-top:8px" onclick="forgot()">Mot de passe oublié ?</button></div>`}
 async function doLogin(){let email=document.getElementById('email').value.trim(),password=document.getElementById('pw').value;let {error}=await sb.auth.signInWithPassword({email,password});if(error)return login('E-mail ou mot de passe incorrect.');await boot()}
 async function forgot(){
-alert('Réinitialisation du mot de passe désactivée dans cet aperçu en lecture seule. Utilisez le site V18 Production.');return;
+if(location.hostname!==V19_APPROVED_HOST){alert('Réinitialisation disponible uniquement sur le domaine Netlify après la bascule.');return;}
 let email=document.getElementById('email')?.value.trim();if(!email)return alert('Renseigne d’abord ton adresse e-mail.');let {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});alert(error?error.message:'Un e-mail de réinitialisation vient d’être envoyé.')}
 function setPassword(){root.innerHTML=`<div class="card"><h2>Créer votre mot de passe</h2><div class="muted">Choisissez votre mot de passe personnel.</div><input id="npw" type="password" placeholder="Nouveau mot de passe"><input id="cpw" type="password" placeholder="Confirmer le mot de passe"><button class="primary" style="width:100%" onclick="savePassword()">Enregistrer mon mot de passe</button></div>`}
 async function savePassword(){
- alert('Modification du mot de passe désactivée dans cet aperçu en lecture seule.');return;
+ if(location.hostname!==V19_APPROVED_HOST){alert('Modification du mot de passe disponible uniquement sur le domaine Netlify après la bascule.');return;}
 
  const a=document.getElementById('npw').value,b=document.getElementById('cpw').value;
  if(a.length<6)return alert('Choisissez au moins 6 caractères.');
