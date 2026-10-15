@@ -22,6 +22,7 @@ const originalRpc=sb.rpc.bind(sb);
 // et uniquement sur le domaine de production après déploiement explicite.
 const V19_APPROVED_HOST='renforcementmusculairecattenom.netlify.app';
 const PERSONAL_WRITE_RPCS=new Set(['v19_book_session','v19_cancel_booking']);
+// Les RPC personnelles restent soumises à l'authentification et aux contrôles SQL Supabase.
 const READ_ONLY_RPCS=new Set(['v19_get_upcoming_sessions','my_bookings','my_profile','admin_list_users','admin_session_detail','admin_session_overview','admin_session_identity','admin_session_cancellations','admin_cancellation_journal','admin_list_cancelled_extra_sessions','admin_list_extra_sessions','admin_get_booking_lock','session_participants','admin_session_history','v19_booking_is_open']);
 sb.rpc=(name,args)=>{
  if(!READ_ONLY_RPCS.has(name) && !(location.hostname===V19_APPROVED_HOST && PERSONAL_WRITE_RPCS.has(name))){
@@ -33,6 +34,7 @@ sb.rpc=(name,args)=>{
 };
 // Prévenir les administrateurs : la version candidate ne permet pas les modifications.
 const V19_ADMIN_WRITES_ENABLED=false;
+// L'interface bloque les RPC d'écriture admin ; les droits Supabase restent gérés par le serveur.
 const root=document.getElementById('root');let me=null;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function fr(d){return new Date(d+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}
