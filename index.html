@@ -25,7 +25,7 @@ const PERSONAL_WRITE_RPCS=new Set(['v19_book_session','v19_cancel_booking']);
 // Les RPC personnelles restent soumises à l'authentification et aux contrôles SQL Supabase.
 const READ_ONLY_RPCS=new Set(['v19_get_upcoming_sessions','my_bookings','my_profile','admin_list_users','admin_session_detail','admin_session_overview','admin_session_identity','admin_session_cancellations','admin_cancellation_journal','admin_list_cancelled_extra_sessions','admin_list_extra_sessions','admin_get_booking_lock','session_participants','admin_session_history','v19_booking_is_open']);
 sb.rpc=(name,args)=>{
- if(!READ_ONLY_RPCS.has(name) && !(location.hostname===V19_APPROVED_HOST && PERSONAL_WRITE_RPCS.has(name))){
+ if(V19_ADMIN_MUTATION_RPCS.has(name) || (!READ_ONLY_RPCS.has(name) && !(location.hostname===V19_APPROVED_HOST && PERSONAL_WRITE_RPCS.has(name)))){
   const msg='Action non autorisée sur cette version : '+name;
   alert(msg);
   return Promise.resolve({data:null,error:{message:msg}});
@@ -34,6 +34,8 @@ sb.rpc=(name,args)=>{
 };
 // Prévenir les administrateurs : la version candidate ne permet pas les modifications.
 const V19_ADMIN_WRITES_ENABLED=false;
+// Liste explicite : toutes les RPC admin mutatrices sont refusées dans ce candidat.
+const V19_ADMIN_MUTATION_RPCS=new Set(['admin_set_user_active','admin_archive_user','admin_add_user','admin_promote_user','admin_create_or_restore_extra_session','admin_move_extra_session_by_id','admin_cancel_extra_session_by_id','admin_restore_extra_session_by_id','admin_restore_regular_session','admin_set_booking_lock','admin_move_regular_session','admin_cancel_regular_session','v19_admin_book_user','v19_admin_remove_user']);
 // L'interface bloque les RPC d'écriture admin ; les droits Supabase restent gérés par le serveur.
 const root=document.getElementById('root');let me=null;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
